@@ -1,0 +1,13 @@
+{
+  "name": "individualschedule",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"cd server && yarn start\" \"cd client && yarn start\"",
+    "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn start\""
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
+}

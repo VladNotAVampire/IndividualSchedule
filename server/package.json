@@ -1,0 +1,64 @@
+{
+  "name": "individualscedule-server",
+  "version": "1.0.0",
+  "description": "Individual schedule helper application for students of PPC NTU \"KPI\"",
+  "author": {
+    "name": "VladNotAVampire",
+    "email": "vladik50104@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/posquit0/koa-rest-api-boilerplate.git"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "main": "app",
+  "scripts": {
+    "start": "node app",
+    "dev": "NODE_ENV=development nodemon --quiet | pino-pretty -c -l -t",
+    "test": "NODE_ENV=test jest --passWithNoTests",
+    "test:unit": "npm test -- test/unit",
+    "test:integration": "npm test -- test/integration",
+    "test:watch": "npm test -- --watch",
+    "test:watch:unit": "npm run test:unit -- --watch",
+    "test:watch:integration": "npm run test:integration -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "test:coverage:unit": "npm run test:unit -- --coverage",
+    "test:coverage:integration": "npm run test:integration -- --coverage",
+    "lint": "eslint app test",
+    "lint:app": "eslint app",
+    "lint:test": "eslint test"
+  },
+  "dependencies": {
+    "@kasa/koa-logging": "^0.3.0",
+    "@kasa/koa-request-id": "^2.0.1",
+    "@koa/cors": "^3.0.0",
+    "dotenv": "^7.0.0",
+    "elastic-apm-node": "^2.9.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.5.3",
+    "pino": "^5.12.2",
+    "swagger-jsdoc": "^3.2.8",
+    "swagger-ui-dist": "^3.22.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
+    "eslint-config-kasa": "^0.4.0",
+    "husky": "^1.3.1",
+    "jest": "^24.7.1",
+    "jest-extended": "^0.11.1",
+    "jest-junit": "^6.3.0",
+    "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.11",
+    "pino-pretty": "^2.6.0",
+    "prettier": "^1.16.4",
+    "supertest": "^4.0.2"
+  }
+}
