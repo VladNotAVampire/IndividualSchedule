@@ -1,2 +1,8 @@
 const ModelSercice = require('./model-service-base');
-module.exports = new ModelSercice(require('../models/subject'));
+
+module.exports = class SubjectsService extends ModelService {
+
+    constructor(){
+        super(require('../models/subject'));
+    }
+}

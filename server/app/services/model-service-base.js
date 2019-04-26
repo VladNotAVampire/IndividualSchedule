@@ -17,7 +17,7 @@ class ModelServiceBase {
 
     /**
      * 
-     * @param {mongoose.Types.ObjectId} id
+     * @param {mongoose.Types.ObjectId | String} id
      * @returns {this.Model} 
      */
     _getOne(id) {
@@ -34,11 +34,11 @@ class ModelServiceBase {
 
     /**
      * 
-     * @param {mongoose.Types.ObjectId} id 
+     * @param {mongoose.Types.ObjectId | String} id 
      */
     async get(id) {
         try {
-            return id ? this._getOne(id) : this._getAll();
+            return await (id ? this._getOne(id) : this._getAll());
         } catch (err) {
             console.error(err);
             return { error: err };
@@ -49,8 +49,8 @@ class ModelServiceBase {
         try {
             this._throwIfModelNonObject(model);
 
-            const instance = new Model({
-                _id: mongoose.Types.ObjectId,
+            const instance = new this.Model({
+                _id: new mongoose.Types.ObjectId(),
                 ...model
             });
 
@@ -61,7 +61,7 @@ class ModelServiceBase {
     }
 
     /**
-     * @param {mongoose.Types.ObjectId} id 
+     * @param {mongoose.Types.ObjectId | String} id 
      * @returns {mongoose.Model} */
     async update(id, model) {
         try {
@@ -74,7 +74,7 @@ class ModelServiceBase {
     }
 
     /**
-     * @param {mongoose.Types.ObjectId} id 
+     * @param {mongoose.Types.ObjectId | String} id 
      * @returns {mongoose.Model} 
      */
     async delete(id) {

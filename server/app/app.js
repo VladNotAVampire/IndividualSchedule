@@ -7,9 +7,10 @@ const logging = require('@kasa/koa-logging');
 const requestId = require('@kasa/koa-request-id');
 const apmMiddleware = require('./middlewares/apm');
 const errorHandler = require('./middlewares/errorHandler');
+const authentication = require('./middlewares/authentication');
 const logger = require('./logger');
 const router = require('./routes');
-const swagger = require('./swagger');
+const passport = require('koa-passport');
 
 
 class App extends Koa {
@@ -30,6 +31,7 @@ class App extends Koa {
   _configureMiddlewares() {
     this.use(errorHandler());
     this.use(apmMiddleware());
+    //  body parsing
     this.use(
       bodyParser({
         enableTypes: ['json', 'form'],
@@ -38,10 +40,12 @@ class App extends Koa {
       })
     );
     this.use(requestId());
+    //  logging
     this.use(logging({
       logger,
       overrideSerializers: false
     }));
+    //  cors
     this.use(
       cors({
         origin: '*',
@@ -50,7 +54,10 @@ class App extends Koa {
         exposeHeaders: ['Content-Length', 'Date', 'X-Request-Id']
       })
     );
-    this.use(swagger);
+
+    //passport
+    this.use(passport.initialize());
+    this.use(authentication());
   }
 
   _configureRoutes() {
