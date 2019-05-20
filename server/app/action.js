@@ -9,7 +9,14 @@ class ActionOptions {
 }
 
 /**
+ * @callback KoaCallback
+ * @param {koa.Context} ctx
+ * @returns {Promise<void>}
+ */
+/**
  * @param {ActionOptions} options  
+ * @param {KoaCallback} func
+ * @returns {KoaCallback}
  */
 module.exports = (options = {}, func) => {
     if (typeof (func) !== "function")
@@ -21,13 +28,13 @@ module.exports = (options = {}, func) => {
                 ctx.res.unauthorized();
                 return;
             }
-
-            if (options.bodyRequired && ! ctx.body){
-                ctx.res.badRequest({ message: "Body required"});
-                return;
-            }
-
-            await func(ctx);
         }
+
+        if (options.bodyRequired && !ctx.request.body) {
+            ctx.res.badRequest({ message: "Body required" });
+            return;
+        }
+        
+        await func(ctx);
     }
 }

@@ -5,7 +5,7 @@ const authconfig = require('../authconfig.json');
 const UsersService = require('../services/users');
 
 const passportJwt = require('passport-jwt');
-const JwtStrategy = passportJwt.JwtStrategy;
+const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
 const usersService = new UsersService();
@@ -16,12 +16,14 @@ module.exports = () => {
         passwordField: 'password',
         session: false
     },
-        await function (email, password, done) {
+        async function (email, password, done) {
             try {
+                console.warn(`Attempt to login ${email}`);
+
                 const user = await usersService.findByEmail(email)
 
                 if (!user || !user.checkPassword(password)) {
-                    return done(null, false, { message: 'Invalid credentials' });
+                    return done(null, 0, { message: 'Invalid credentials' });
                 }
                 return done(null, user);
 
@@ -33,7 +35,7 @@ module.exports = () => {
     ));
 
     passport.use(new JwtStrategy({
-        jwtFromRequest: ExtractJwt.fromAuthHeader(),
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: authconfig.secret
     },
         function (payload, done) {
@@ -57,5 +59,7 @@ module.exports = () => {
                 ctx.user = user;
             }
         })(ctx, next);
+
+        await next();
     }
 };

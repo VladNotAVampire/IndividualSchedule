@@ -1,5 +1,8 @@
 const UsersService = require('../services/users');
 const action = require('../action');
+const passport = require('koa-passport');
+const jwt = require('jsonwebtoken');
+const jwtsecret = require('../authconfig.json').secret;
 
 const usersService = new UsersService();
 
@@ -16,7 +19,7 @@ exports.login = action({ bodyRequired: true },
                 };
                 const token = jwt.sign(payload, jwtsecret);
 
-                ctx.body = { user: { id: user.id, email: user.email }, token: 'JWT ' + token };
+                ctx.body = { user: { id: user.id, email: user.email }, token: 'Bearer ' + token };
             }
         })(ctx);
     });

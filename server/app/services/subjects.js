@@ -1,4 +1,4 @@
-const ModelSercice = require('./model-service-base');
+const ModelService = require('./model-service-base');
 
 module.exports = class SubjectsService extends ModelService {
 

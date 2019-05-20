@@ -8,7 +8,8 @@ const apm = require('./apm');
 const App = require('./app');
 const logger = require('./logger');
 
-require('mongoose').connect('mongodb://localhost:27017/individualschedule');
+require('mongoose').connect('mongodb://localhost:27017/individualschedule')
+  .catch(err => console.error(err));
 
 const app = new App();
 

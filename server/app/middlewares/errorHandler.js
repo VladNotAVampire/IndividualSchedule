@@ -20,6 +20,7 @@ function errorHandler() {
         return Response.notFound(ctx, UNKNOWN_ENDPOINT);
       }
     } catch (err) {
+      console.error(err);
       return Response.internalServerError(ctx, UNKNOWN_ERROR);
     }
   };

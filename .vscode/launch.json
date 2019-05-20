@@ -8,6 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            "cwd": "${workspaceFolder}\\server",
             "program": "${workspaceFolder}\\server\\app\\index.js",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"

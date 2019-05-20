@@ -99,6 +99,7 @@ function responseHandler() {
     };
 
     ctx.res.unauthorized = (params = {}) => {
+      params.message = params.message || "unauthorized";
       ctx.res.fail({
         ...params,
         statusCode: statusCodes.UNAUTHORIZED

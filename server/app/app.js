@@ -7,10 +7,12 @@ const logging = require('@kasa/koa-logging');
 const requestId = require('@kasa/koa-request-id');
 const apmMiddleware = require('./middlewares/apm');
 const errorHandler = require('./middlewares/errorHandler');
+const responseHandler = require('./middlewares/responseHandler')
 const authentication = require('./middlewares/authentication');
 const logger = require('./logger');
 const router = require('./routes');
 const passport = require('koa-passport');
+const koaBody = require('koa-body');
 
 
 class App extends Koa {
@@ -30,15 +32,21 @@ class App extends Koa {
 
   _configureMiddlewares() {
     this.use(errorHandler());
+    this.use(responseHandler());
     this.use(apmMiddleware());
     //  body parsing
-    this.use(
-      bodyParser({
-        enableTypes: ['json', 'form'],
-        formLimit: '10mb',
-        jsonLimit: '10mb'
-      })
-    );
+    // this.use(
+    //   bodyParser({
+    //     enableTypes: ['json', 'form'],
+    //     formLimit: '10mb',
+    //     jsonLimit: '10mb',
+    //   })
+    // );
+    this.use(koaBody({
+      formidable: { uploadDir: require('./filedirs').uploadsDir },
+      multipart: true,
+      json: true,
+    }));
     this.use(requestId());
     //  logging
     this.use(logging({
