@@ -1,0 +1,13 @@
+@media all and (min-width: 480px) {
+    .Subjects {
+      padding: 20px 0;
+      margin: 0 auto;
+      max-width: 500px;
+      height: 100%;
+    }
+
+    .addSubjectButton{
+      padding: 60px 0;
+        float: bottom;
+    }
+  }

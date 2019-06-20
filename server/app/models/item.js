@@ -7,7 +7,7 @@ const itemSchema = new Schema({
     _userId: mongoose.Schema.Types.ObjectId,
     type: {
         type: String,
-        enum: ["Practice task", "Lab task", "Lection"],
+        enum: ["Practice task", "Lab task", "Lection", "Completed task"],
         required: true
     },
     fileType: String,

@@ -69,9 +69,52 @@ exports.post = action({
         _userId: ctx.user._id || ctx.user.id,
         type: ctx.request.body.type,
         fileType: file.type,
-        name: file.name,
+        name: ctx.request.body.name,
         fileName: fileName
     };
 
     ctx.body = await items.create(item);
+});
+
+exports.setMark = action({
+    authorization: [roles.INSTRUCTOR, roles.HEAD_OF_THE_DEPARTMENT],
+    bodyRequired: true
+}, async ctx => {
+    const mark =  ctx.request.body.mark;
+    const itemId = ctx.request.itemId;
+
+    if (!itemId){
+        ctx.res.badRequest({message: "itemId is required"});
+        return;
+    }
+
+    if (!mark || mark < 2 || mark > 5){
+        ctx.res.badRequest({message: "mark is required and must be lower than 5 and greater then 2"});
+        return;
+    }
+
+    const item = await items.get(itemId);
+
+    if (!item){
+        ctx.res.notFound();
+        return;
+    }
+
+    if (item.type !== "Completed task"){
+        ctx.res.badRequest({message: "cannot set mark to " + item.type});
+    }
+
+    ctx.body = await items.update(item._id, {mark, comment: ctx.request.body.comment});
+});
+
+exports.getOwnItems = action({
+    authorization: roles.all,
+}, async ctx => {
+    ctx.body = await items.getByUserId(ctx.user._id);
+});
+
+exports.getCompletedTasks = action({
+    authorization: [roles.INSTRUCTOR, roles.HEAD_OF_THE_DEPARTMENT]
+}, async ctx => {
+    ctx.body = await items.getCompletedOfInstructor(ctx.user._id);
 });

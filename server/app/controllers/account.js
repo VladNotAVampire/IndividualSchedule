@@ -19,7 +19,7 @@ exports.login = action({ bodyRequired: true },
                 };
                 const token = jwt.sign(payload, jwtsecret);
 
-                ctx.body = { user: { id: user.id, email: user.email }, token: 'Bearer ' + token };
+                ctx.body = { user: { id: user.id, email: user.email, role: user.role }, token: 'Bearer ' + token };
             }
         })(ctx);
     });

@@ -1,0 +1,20 @@
+@media all  {
+    .ItemsList {
+      padding: 20px 0;
+      height: 100%;
+    }
+  
+    .ItemsList .content  {
+      margin: 0 auto;
+      max-width: 500px;
+    }
+
+    .uploaditembutton {
+        padding: 60px 0;
+        float: bottom;
+    }
+
+    .list {
+        padding: 40px 0;
+    }
+  }

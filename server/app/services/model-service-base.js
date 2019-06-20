@@ -7,8 +7,6 @@ class ModelServiceBase {
      */
     constructor(modelType) {
         this.Model = modelType;
-
-        let getAll = { a: "g" };
     }
 
     _getAll() {

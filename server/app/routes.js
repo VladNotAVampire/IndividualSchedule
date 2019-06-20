@@ -24,9 +24,11 @@ router.post(`/${SUBJECTS_PREFIX}`, subjectsController.post);
 router.patch(`/${SUBJECTS_PREFIX}/:id`, subjectsController.patch);
 router.delete(`/${SUBJECTS_PREFIX}/:id`, subjectsController.delete);
 
-router.get(`/${ITEMS_PREFIX}/:id`, itemsController.getById);
+router.get(`/${ITEMS_PREFIX}/getOwn/`, itemsController.getOwnItems);
+router.get(`/${ITEMS_PREFIX}/getCompleted/`, itemsController.getCompletedTasks);
 router.get(`/${ITEMS_PREFIX}/ofSubject/:subjectId`, itemsController.getBySubjectId);
 router.get(`/${ITEMS_PREFIX}/file/:id`, itemsController.getFile);
+router.get(`/${ITEMS_PREFIX}/:id`, itemsController.getById);
 router.post(`/${ITEMS_PREFIX}/`, itemsController.post);
 
 module.exports = router;

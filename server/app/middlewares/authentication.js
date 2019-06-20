@@ -38,9 +38,9 @@ module.exports = () => {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         secretOrKey: authconfig.secret
     },
-        function (payload, done) {
+        async function (payload, done) {
             try{
-                const user = usersService.get(payload.id);
+                const user = await usersService.get(payload.id);
 
                 if (user) {
                     done(null, user)
