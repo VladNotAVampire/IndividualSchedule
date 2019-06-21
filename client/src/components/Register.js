@@ -123,7 +123,6 @@ export default class Register extends Component {
                         </Form.Control>
                     </Form.Group>
 
-
                     {
                         this.state.role === "student" && (
                             <Form.Group controlId="group">

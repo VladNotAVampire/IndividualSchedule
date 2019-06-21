@@ -33,10 +33,10 @@ export default class CompletedTasks extends Component {
 
                                 <ListGroup>
                                     {
-                                        task.targetedTasks.map(item =>
+                                        task.targetedItems.map(item =>
                                             <Link to={"/item/" + item._id }>
                                                 <ListGroupItem variant="info">
-                                                    <span class="itemname">{item.name}</span>
+                                                    <span class="itemname">{`${item.name}(${item.user.firstName || ""} ${item.user.middleName || ""} ${item.user.lastName || ""})`}</span>
                                                     <i class="downloadicon"></i>
                                                 </ListGroupItem>
                                             </Link>

@@ -50,7 +50,7 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/subjects" component={Subjects} />
             <Route path="/itemslist/:subjectId" component={ItemsList} />
-            <Route path="/item" component={ItemInfo} />
+            <Route path="/item/:itemId" component={ItemInfo} />
             <Route path="/uploadItem/:subjectId" component={UploadItem} />
             <Route path="/addSubject" component={AddSubject}></Route>
             <Route path="/completedTasks" component={CompletedTasks} />

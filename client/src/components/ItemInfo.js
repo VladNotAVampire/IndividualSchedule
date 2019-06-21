@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import RateWork from './RateWork';
+import apiclient from '../apiclient';
 
 export default class ItemInfo extends Component {
 
@@ -8,31 +9,39 @@ export default class ItemInfo extends Component {
         super(props);
 
         this.itemType = "Student work";
-
+        
         this.state = {
-            itemName: "Практична робота №1",
-            subject: "Основи оверінжинірінгу",
-            studentName: "Прізвище Ім'я Побатькові",
-            group: 45
+            item: {},
+            loading: true
         }
+
+        this.itemId = this.props.match.params.itemId
+
+        apiclient.items.get(this.itemId)
+            .then(item => this.setState({item, loading: false}));
     }
 
     render() {
+        if (this.state.loading)
+            return (<el>loading..</el>)
+
         return (
             <div>
                 <div style={{ maxWidth: "500px", margin: "0 auto" }}>
 
-                    <p>{this.state.itemName}</p>
-                    <p>Студент: {this.state.studentName}</p>
-                    <p>Дисципліна: {this.state.subject}</p>
-                    <p>Група: {this.state.group}</p>
-                    <Button block variant="success">
-                        Завантажити роботу
-                </Button>
+                    <p>{this.state.item.name}</p>
+                    <p>Студент: {this.state.item.user.firstName} {this.state.item.user.middleName} {this.state.item.user.lastName}</p>
+                    <p>Дисципліна: {this.state.item.subject.name}</p>
+                    <p>Група: {this.state.item.user.group}</p>
+                    <a href={apiclient.baseUrl + "items/file/" + this.itemId}>
+                        <Button block variant="success">
+                            Завантажити роботу
+                        </Button>
+                    </a>
 
                     {this.itemType === "Student work"
-                        ? (<div style={{padding: "40px 0"}}>
-                            <RateWork />
+                        ? (<div style={{ padding: "40px 0" }}>
+                            <RateWork itemId={this.state.item._id}/>
                         </div>)
                         : (<br />)
                     }

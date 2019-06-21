@@ -30,5 +30,6 @@ router.get(`/${ITEMS_PREFIX}/ofSubject/:subjectId`, itemsController.getBySubject
 router.get(`/${ITEMS_PREFIX}/file/:id`, itemsController.getFile);
 router.get(`/${ITEMS_PREFIX}/:id`, itemsController.getById);
 router.post(`/${ITEMS_PREFIX}/`, itemsController.post);
+router.patch(`/${ITEMS_PREFIX}/setMark/:id`, itemsController.setMark);
 
 module.exports = router;

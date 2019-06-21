@@ -47,4 +47,8 @@ export default class ItemsClient {
     ownTasks(){
         return this.client._get("items/getOwn");
     }
+
+    setMark(id, mark, comment){
+        return this.client._patch("items/setMark/" + id, JSON.stringify({mark, comment}));
+    }
 }

@@ -6,6 +6,25 @@ module.exports = class ItemsService extends ModelService {
         super(require('../models/item'));
     }
 
+    async get(id){
+        try{
+
+            if (id === undefined)
+            return await super.get();
+            
+            let item = await this.Model.findOne({_id: id}).populate("_subjectId").populate("_userId").exec();
+            item = item.toObject({getters: true});
+            item.subject = item._subjectId;
+            item.user = item._userId;
+            item._subjectId = item.subject._id;
+            item._userId = item.user._id;
+            return item;
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
     async getBySubjectId(subjectId) {
         return this.Model.find({ _subjectId: subjectId, type: { $ne: "Completed task" } }).exec();
     }
@@ -19,24 +38,44 @@ module.exports = class ItemsService extends ModelService {
 
             const query = this.Model.aggregate([
                 {
-                    $match: { 
+                    $match: {
                         _userId: instructorId,
-                        type: { $ne: "Completed task" } 
+                        type: { $ne: ["Completed task", "Lection"] }
                     }
                 },
                 {
-                    $lookup: {  
+                    $lookup: {
                         from: "items",
                         localField: "_id",
                         foreignField: "_targetId",
-                        as: "targetedTasks"
+                        as: "targetedItems"
+                    }
+                },
+                { $unwind: "$targetedItems" },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'targetedItems._userId',
+                        foreignField: '_id',
+                        as: 'targetedItems.user'
+                    }
+                },
+                { $unwind: "$targetedItems.user" },
+                {
+                    $group: {
+                        _id: "$_id",
+                        name: { $first: "$name" },
+                        type: { $first: "$type" },
+                        targetedItems: {
+                            $push: "$targetedItems"
+                        }
                     }
                 }
             ]);
 
             return query.exec();
         }
-        catch(error){
+        catch (error) {
             return { error };
         }
     }

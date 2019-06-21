@@ -34,7 +34,7 @@ exports.getFile = async ctx => {
         if (!item)
         return ctx.res.notFound();
         
-        ctx.attachment(item.name);
+        ctx.attachment(item.originalFileName);
         //const filePath = path.join(filedirs.filesDir, item.fileName);
         const filePath = "app/files/" + item.fileName;
         await send(ctx, filePath);
@@ -67,10 +67,12 @@ exports.post = action({
     const item = {
         _subjectId: ctx.request.body.subjectId,
         _userId: ctx.user._id || ctx.user.id,
+        _targetId: ctx.request.body.targetItem,
         type: ctx.request.body.type,
         fileType: file.type,
         name: ctx.request.body.name,
-        fileName: fileName
+        fileName: fileName,
+        originalFileName: file.name
     };
 
     ctx.body = await items.create(item);
@@ -81,7 +83,7 @@ exports.setMark = action({
     bodyRequired: true
 }, async ctx => {
     const mark =  ctx.request.body.mark;
-    const itemId = ctx.request.itemId;
+    const itemId = ctx.params.id;
 
     if (!itemId){
         ctx.res.badRequest({message: "itemId is required"});
